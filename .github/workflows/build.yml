@@ -1,0 +1,21 @@
+name: Build Forge Mod
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - run: chmod +x fallindicator/gradlew
+      - run: cd fallindicator && ./gradlew build --no-daemon
+      - uses: actions/upload-artifact@v3
+        with:
+          name: fallindicator-jar
+          path: fallindicator/build/libs/*.jar
